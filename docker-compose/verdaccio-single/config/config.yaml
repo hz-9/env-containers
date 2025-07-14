@@ -1,0 +1,84 @@
+#
+# Verdaccio Configuration File
+# Simple configuration for private npm registry
+#
+
+# path to a directory with all packages
+storage: /verdaccio/storage
+plugins: /verdaccio/plugins
+
+auth:
+  htpasswd:
+    file: /verdaccio/conf/htpasswd
+    # Maximum amount of users allowed to register, defaults to "+inf".
+    # You can set this to -1 to disable registration.
+    # max_users: 1000
+
+security:
+  api:
+    jwt:
+      sign:
+        expiresIn: 60d
+        notBefore: 1
+  web:
+    sign:
+      expiresIn: 7d
+
+web:
+  enable: true
+  title: Hz_9 NPM Registry
+
+# a list of other known repositories we can talk to
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+  taobao:
+    url: https://registry.npmmirror.com/
+  
+packages:
+  '@hz-9/*':
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+
+  '**':
+    # allow all users (including non-authenticated users) to read and
+    # publish all packages
+    #
+    # you can specify usernames/groupnames (depending on your auth plugin)
+    # and three keywords: "$all", "$anonymous", "$authenticated"
+    access: $all
+
+    # allow all known users to publish/publish packages
+    # (anyone can register by default, remember?)
+    publish: $authenticated
+    unpublish: $authenticated
+
+    # if package is not available locally, proxy requests to 'npmjs' registry
+    proxy: taobao npmjs
+
+# You can specify HTTP/1.1 server keep alive timeout in seconds for incoming connections.
+# A value of 0 makes the http server behave similarly to Node.js versions prior to 8.0.0, which did not have a keep-alive timeout.
+# WORKAROUND: Through given configuration you can workaround following issue https://github.com/verdaccio/verdaccio/issues/301. Set to 0 in such case.
+server:
+  keepAliveTimeout: 60
+
+middlewares:
+  audit:
+    enabled: true
+
+# log settings
+logs: { type: stdout, format: pretty, level: http }
+
+#experiments:
+#  # support for npm token command
+#  token: false
+#  # enable tarball URL redirect feature, only when `proxy_access` is declared and
+#  # upstream are generating url shortcut, you must use `proxy_access` replacement instead of `access` and `publish`
+#  tarball_url_redirect: false
+#  # the tarball_url_redirect can be a template string
+#  # tarball_url_redirect: 'https://mycdn.com/verdaccio/${packageName}/${filename}'
+#  # the ${packageName} and ${filename} are variales that represent the package name and filename being requested (this can be used to bypass not found errors)
+#  # experiments:
+#  #   search: false
+#  #   my_feature: false

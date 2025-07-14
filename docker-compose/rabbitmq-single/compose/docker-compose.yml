@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.1.2-management
+    container_name: rabbitmq-single
+    restart: always
+    hostname: rabbitmq-single
+    networks:
+      all:
+        aliases:
+          - all.rabbitmq
+    volumes:
+      - ../temp/data:/var/lib/rabbitmq
+      - ../temp/logs:/var/log/rabbitmq
+      - ../temp/config:/etc/rabbitmq
+    environment:
+      # User configuration
+      RABBITMQ_DEFAULT_USER: hz_9
+      RABBITMQ_DEFAULT_PASS: 123456
+      # Node configuration
+      RABBITMQ_NODENAME: rabbit@rabbitmq-single
+      # Management interface configuration
+      RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS: "true"
+      # Virtual host configuration
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "5672:5672"    # AMQP port
+      - "15672:15672"  # Management interface port
+      - "15692:15692"  # Prometheus metrics port
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  all:
+    driver: bridge

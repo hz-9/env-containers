@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  zoo1:
+    image: zookeeper:3.5
+    container_name: zoo1
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zoo1
+    volumes:
+      - ../temp/zoo1/data:/data
+      - ../temp/zoo1/logs:/logs
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    ports:
+      - 2181:2181
+
+  zoo2:
+    image: zookeeper:3.5
+    container_name: zoo2
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zoo2
+    volumes:
+      - ../temp/zoo2/data:/data
+      - ../temp/zoo2/logs:/logs
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    ports:
+      - 2182:2181
+
+  zoo3:
+    image: zookeeper:3.5
+    container_name: zoo3
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zoo3
+    volumes:
+      - ../temp/zoo3/data:/data
+      - ../temp/zoo3/logs:/logs
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    ports:
+      - 2183:2181
+
+  zoonavigator:
+    image: elkozmon/zoonavigator
+    container_name: zoonavigator
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zoonavigator
+    environment:
+      HTTP_PORT: 9000
+    ports:
+      - 9000:9000
+
+networks:
+  all:

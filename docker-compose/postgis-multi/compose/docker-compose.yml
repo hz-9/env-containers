@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  postgis-1:
+    platform: linux/amd64
+    image: mdillon/postgis:9.6-alpine
+    container_name: postgis-1
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.postgis1
+    volumes:
+      - ../temp/db-1/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hz_9
+      POSTGRES_USER: hz_9
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 5432:5432
+
+  postgis-2:
+    platform: linux/amd64
+    image: mdillon/postgis:9.6-alpine
+    container_name: postgis-2
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.postgis2
+    volumes:
+      - ../temp/db-2/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hz_9
+      POSTGRES_USER: hz_9
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 5433:5432
+
+  postgis-3:
+    platform: linux/amd64
+    image: mdillon/postgis:9.6-alpine
+    container_name: postgis-3
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.postgis3
+    volumes:
+      - ../temp/db-3/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hz_9
+      POSTGRES_USER: hz_9
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 5434:5432
+
+networks:
+  all:

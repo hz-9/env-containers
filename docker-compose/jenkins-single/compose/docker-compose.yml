@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  jenkins:
+    user: root
+    platform: linux/amd64
+    image: jenkinsci/blueocean:1.25.7
+    container_name: jenkins
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.jenkins
+    volumes:
+      - ../temp/home:/var/jenkins_home
+      - ../temp/docker.sock:/var/run/docker.sock
+      - ../temp/key:/root/.ssh
+    ports:
+      - 8080:8080
+      - 50000:50000
+
+networks:
+  all:

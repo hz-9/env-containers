@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  verdaccio:
+    image: verdaccio/verdaccio:6.1.5
+    container_name: verdaccio-server
+    user: root
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.verdaccio
+    volumes:
+      - ../temp/storage:/verdaccio/storage
+      - ../temp/plugins:/verdaccio/plugins
+      - ../config:/verdaccio/conf
+    ports:
+      - "4873:4873"
+
+networks:
+  all:
+    driver: bridge

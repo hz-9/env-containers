@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  mongodb:
+    image: mongo:4.0-xenial
+    container_name: mongodb
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.mongodb
+    volumes:
+      - ../temp/data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: hz_9
+      MONGO_INITDB_ROOT_USERNAME: hz_9
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+
+networks:
+  all:

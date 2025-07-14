@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  mongodb-1:
+    image: mongo:4.0-xenial
+    container_name: mongodb-1
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.mongodb1
+    volumes:
+      - ../temp/db-1/data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: hz_9
+      MONGO_INITDB_ROOT_USERNAME: hz_9
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+
+  mongodb-2:
+    image: mongo:4.0-xenial
+    container_name: mongodb-2
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.mongodb2
+    volumes:
+      - ../temp/db-2/data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: hz_9
+      MONGO_INITDB_ROOT_USERNAME: hz_9
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27018:27017
+
+  mongodb-3:
+    image: mongo:4.0-xenial
+    container_name: mongodb-3
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.mongodb3
+    volumes:
+      - ../temp/db-3/data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: hz_9
+      MONGO_INITDB_ROOT_USERNAME: hz_9
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27019:27017
+
+networks:
+  all:

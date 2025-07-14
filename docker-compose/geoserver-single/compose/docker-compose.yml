@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  geoserver:
+    image: oscarfonts/geoserver:2.27.1
+    container_name: geoserver
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.geoserver
+    volumes:
+      - ../geoserver/ext:/var/local/geoserver-exts/
+      - ../temp/geoserver/log:/var/local/geoserver
+    ports:
+      - 8080:8080
+
+networks:
+  all:

@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  zookeeper:
+    image: zookeeper:3.5
+    container_name: zookeeper
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zookeeper
+    volumes:
+      - ../temp/zookeeper/data:/data
+      - ../temp/zookeeper/logs:/logs
+    ports:
+      - 2181:2181
+
+  zoonavigator:
+    image: elkozmon/zoonavigator
+    container_name: zoonavigator
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.zoonavigator
+    environment:
+      HTTP_PORT: 9000
+    ports:
+      - 9000:9000
+
+networks:
+  all:

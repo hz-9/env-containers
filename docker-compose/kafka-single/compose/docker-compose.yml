@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  kafka-single:
+    image: apache/kafka:3.9.1
+    container_name: kafka-single
+    restart: always
+    networks:
+      all:
+        aliases:
+          - all.kafka-single
+    volumes:
+      - ../temp/kafka/data:/opt/kafka/data
+      - ../temp/kafka/logs:/opt/kafka/logs
+    environment:
+      # KRaft mode configuration (no ZooKeeper required)
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-single:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-single:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_LOG_DIRS: /opt/kafka/data
+      # Cluster configuration
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # Performance optimization
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    restart: always
+    depends_on:
+      - kafka-single
+    networks:
+      all:
+        aliases:
+          - all.kafka-ui
+    environment:
+      KAFKA_CLUSTERS_0_NAME: kafka-single
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-single:9092
+    ports:
+      - "9080:8080"
+
+networks:
+  all:
+    driver: bridge

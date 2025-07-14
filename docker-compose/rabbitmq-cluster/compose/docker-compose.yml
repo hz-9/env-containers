@@ -1,0 +1,138 @@
+version: "3.8"
+
+services:
+  rabbitmq-1:
+    image: rabbitmq:4.1.2-management
+    container_name: rabbitmq-1
+    restart: always
+    hostname: rabbitmq-1
+    networks:
+      all:
+        aliases:
+          - all.rabbitmq-1
+    volumes:
+      - ../temp/rabbitmq-1/data:/var/lib/rabbitmq
+      - ../temp/rabbitmq-1/logs:/var/log/rabbitmq
+      - ../temp/rabbitmq-1/config:/etc/rabbitmq
+    environment:
+      # User configuration
+      RABBITMQ_DEFAULT_USER: hz_9
+      RABBITMQ_DEFAULT_PASS: 123456
+      # Cluster configuration
+      RABBITMQ_NODENAME: rabbit@rabbitmq-1
+      RABBITMQ_USE_LONGNAME: "false"
+      RABBITMQ_ERLANG_COOKIE: "rabbitmq_cluster_cookie_hz9"
+      # Cluster discovery configuration
+      RABBITMQ_CLUSTER_NODES: "rabbit@rabbitmq-1,rabbit@rabbitmq-2,rabbit@rabbitmq-3"
+      RABBITMQ_CLUSTER_FORMATION_NODE_CLEANUP: "true"
+      RABBITMQ_CLUSTER_NODES_ONLY: "true"
+    ports:
+      - "5672:5672"    # AMQP port
+      - "15672:15672"  # Management interface port
+      - "15692:15692"  # Prometheus metrics port
+      - "25672:25672"  # Cluster communication port
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  rabbitmq-2:
+    image: rabbitmq:4.1.2-management
+    container_name: rabbitmq-2
+    restart: always
+    hostname: rabbitmq-2
+    depends_on:
+      - rabbitmq-1
+    networks:
+      all:
+        aliases:
+          - all.rabbitmq-2
+    volumes:
+      - ../temp/rabbitmq-2/data:/var/lib/rabbitmq
+      - ../temp/rabbitmq-2/logs:/var/log/rabbitmq
+      - ../temp/rabbitmq-2/config:/etc/rabbitmq
+    environment:
+      # User configuration
+      RABBITMQ_DEFAULT_USER: hz_9
+      RABBITMQ_DEFAULT_PASS: 123456
+      # Cluster configuration
+      RABBITMQ_NODENAME: rabbit@rabbitmq-2
+      RABBITMQ_USE_LONGNAME: "false"
+      RABBITMQ_ERLANG_COOKIE: "rabbitmq_cluster_cookie_hz9"
+      # Cluster discovery configuration
+      RABBITMQ_CLUSTER_NODES: "rabbit@rabbitmq-1,rabbit@rabbitmq-2,rabbit@rabbitmq-3"
+      RABBITMQ_CLUSTER_FORMATION_NODE_CLEANUP: "true"
+      RABBITMQ_CLUSTER_NODES_ONLY: "true"
+    ports:
+      - "5673:5672"    # AMQP port
+      - "15673:15672"  # Management interface port
+      - "15693:15692"  # Prometheus metrics port
+      - "25673:25672"  # Cluster communication port
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  rabbitmq-3:
+    image: rabbitmq:4.1.2-management
+    container_name: rabbitmq-3
+    restart: always
+    hostname: rabbitmq-3
+    depends_on:
+      - rabbitmq-1
+      - rabbitmq-2
+    networks:
+      all:
+        aliases:
+          - all.rabbitmq-3
+    volumes:
+      - ../temp/rabbitmq-3/data:/var/lib/rabbitmq
+      - ../temp/rabbitmq-3/logs:/var/log/rabbitmq
+      - ../temp/rabbitmq-3/config:/etc/rabbitmq
+    environment:
+      # User configuration
+      RABBITMQ_DEFAULT_USER: hz_9
+      RABBITMQ_DEFAULT_PASS: 123456
+      # Cluster configuration
+      RABBITMQ_NODENAME: rabbit@rabbitmq-3
+      RABBITMQ_USE_LONGNAME: "false"
+      RABBITMQ_ERLANG_COOKIE: "rabbitmq_cluster_cookie_hz9"
+      # Cluster discovery configuration
+      RABBITMQ_CLUSTER_NODES: "rabbit@rabbitmq-1,rabbit@rabbitmq-2,rabbit@rabbitmq-3"
+      RABBITMQ_CLUSTER_FORMATION_NODE_CLEANUP: "true"
+      RABBITMQ_CLUSTER_NODES_ONLY: "true"
+    ports:
+      - "5674:5672"    # AMQP port
+      - "15674:15672"  # Management interface port
+      - "15694:15692"  # Prometheus metrics port
+      - "25674:25672"  # Cluster communication port
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  haproxy:
+    image: haproxy:2.8-alpine
+    container_name: rabbitmq-loadbalancer
+    restart: always
+    depends_on:
+      - rabbitmq-1
+      - rabbitmq-2
+      - rabbitmq-3
+    networks:
+      all:
+        aliases:
+          - all.rabbitmq-lb
+    volumes:
+      - ../haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports:
+      - "5675:5672"    # Load balanced AMQP port
+      - "15675:15672"  # Load balanced management interface port
+      - "8404:8404"    # HAProxy statistics page
+
+networks:
+  all:
+    driver: bridge
