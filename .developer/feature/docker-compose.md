@@ -19,6 +19,7 @@
 - rabbit(rabbitmq:4.1.2) cluster + visualization
 - rabbit(rabbitmq:4.1.2) single instance + visualization
 - ELK cluster + visualization
+- Minio(minio/minio:RELEASE.2025-05-24T17-08-30Z) single instance
 
 ## Data Volumes
 
