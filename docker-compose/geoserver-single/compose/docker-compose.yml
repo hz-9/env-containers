@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   geoserver:
     image: oscarfonts/geoserver:2.27.1

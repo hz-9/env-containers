@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   kafka-single:
     image: apache/kafka:3.9.1
