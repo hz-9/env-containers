@@ -1,11 +1,5 @@
 # Container Environments
 
-## Directory Structure
+A collection of docker compose scripts for setting up development environment.
 
-``` shell
-/
-├── README.md                    # Project guide
-├── .developer/                  # Developer-related documentation
-├── docker-compose/              # Docker Compose container orchestration examples
-└── .../                         # Other directories
-```
+[Document](https://hz-9.github.io/env-containers)

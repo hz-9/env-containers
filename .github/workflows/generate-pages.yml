@@ -1,0 +1,77 @@
+# Sample workflow for building and deploying a Nuxt site to GitHub Pages
+#
+name: Generate website with @hz-9/docs-build
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - master
+  # schedule:
+  #   - cron: '5 20 * * *'
+  workflow_dispatch:
+
+  # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install @hz-9/docs-build
+        run: npm install -g @hz-9/docs-build
+      - name: Build docs
+        run: docs-build --action build --base-url '/env-containers/' --lang en-US,zh-CN
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/.vuepress/src/.vuepress/dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Send email
+        # You may pin to the exact commit or the version.
+        # uses: dawidd6/action-send-mail@2cea9617b09d79a095af21254fbcb7ae95903dde
+        uses: dawidd6/action-send-mail@v3.12.0
+        with:
+          # SMTP server address
+          server_address: smtp.163.com
+          # SMTP server port
+          server_port: 465
+          # Whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Authenticate as this user to SMTP server
+          username: ${{ secrets.ACTION_MAIL_USERNAME }}
+          # Authenticate with this password to SMTP server
+          password: ${{ secrets.ACTION_MAIL_PASSWORD }}
+          # Subject of mail message
+          subject: Publish Github Pages - ${{ github.repository }}
+          # Recipients mail addresses (separated with comma)
+          to: heavenzhen999@163.com
+          # Full name of mail sender (might be with an email address specified in <>)
+          from: '"Github Action" <@hz-9>'
+          # Body of mail message (might be a filename prefixed with file:// to read from)
+          body: 'Publish Github Pages - ${{ github.repository }}'
