@@ -20,6 +20,7 @@
 - rabbit(rabbitmq:4.1.2) single instance + visualization
 - ELK cluster + visualization
 - Minio(minio/minio:RELEASE.2025-05-24T17-08-30Z) single instance
+- stable-diffusion-webui(universonic/stable-diffusion-webui:minimal) single instance + web interface
 
 ## Data Volumes
 

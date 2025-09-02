@@ -20,6 +20,7 @@
 - rabbit(rabbitmq:4.1.2) 单实例 + 可视化
 - ELK 集群 + 可视化
 - Minio(minio/minio:RELEASE.2025-05-24T17-08-30Z) 单实例
+- stable-diffusion-webui(universonic/stable-diffusion-webui:minimal) 单实例 + Web 界面
 
 ## 数据卷
 
