@@ -40,7 +40,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.18.1'
+          node-version: '20.20.2'
       - name: Run Generate Script
         run: bash ./scripts/generate-pages.sh
       - name: Install VuePress dependencies
