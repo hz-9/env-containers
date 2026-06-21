@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: infra
+title: 基础设施容器化编排
+scope:
+    - docker-compose/
+source_files: []
+depends_on: []
+related_to:
+    - path: docs

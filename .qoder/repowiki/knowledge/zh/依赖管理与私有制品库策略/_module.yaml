@@ -1,0 +1,12 @@
+schema_version: 1
+module_path: dependency_management
+title: 依赖管理与私有制品库策略
+scope: []
+source_files:
+    - docker-compose/verdaccio-single/config/config.yaml
+    - docker-compose/verdaccio-single/compose/docker-compose.yml
+    - docker-compose/nexus-single/compose/docker-compose.yml
+    - docs/.vuepress/package.json
+    - docs/.vuepress/package-lock.json
+depends_on: []
+related_to: []

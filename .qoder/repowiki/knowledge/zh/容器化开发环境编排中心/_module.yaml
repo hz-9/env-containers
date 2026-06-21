@@ -1,0 +1,15 @@
+schema_version: 1
+module_path: ""
+title: 容器化开发环境编排中心
+scope:
+    - .gitignore
+    - README.md
+    - docs-build.config.json
+    - package.json
+    - .github/
+    - scripts/
+    - .nvmrc
+    - LICENSE
+source_files: []
+depends_on: []
+related_to: []

@@ -1,0 +1,15 @@
+schema_version: 1
+module_path: configuration_system
+title: 基于 Docker Compose 的环境配置与变量分层管理
+scope: []
+source_files:
+    - docker-compose/elasticsearch-single/.env
+    - docker-compose/elasticsearch-single/compose/docker-compose.yml
+    - docker-compose/elk-cluster/.env
+    - docker-compose/elk-cluster/compose/docker-compose.yml
+    - docker-compose/elk-cluster/filebeat/filebeat.yml
+    - docker-compose/elk-cluster/logstash/logstash.conf
+    - docker-compose/verdaccio-single/config/config.yaml
+    - docker-compose/rabbitmq-cluster/haproxy/haproxy.cfg
+depends_on: []
+related_to: []

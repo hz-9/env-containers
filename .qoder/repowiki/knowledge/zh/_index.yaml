@@ -1,0 +1,114 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: master
+nodes_managed: true
+exported_at: "2026-06-21T15:12:01Z"
+modules:
+    "":
+        dir_name: 容器化开发环境编排中心
+        title: 容器化开发环境编排中心
+        scope:
+            - .gitignore
+            - README.md
+            - docs-build.config.json
+            - package.json
+            - .github/
+            - scripts/
+            - .nvmrc
+            - LICENSE
+        source_files: []
+        children:
+            - docs
+            - infra
+        depends_on: []
+        related_to: []
+    build_system:
+        dir_name: 容器化环境编排与自动化文档构建体系
+        title: 容器化环境编排与自动化文档构建体系
+        scope: []
+        source_files:
+            - .github/workflows/generate-pages.yml
+            - scripts/generate-pages.sh
+            - docs-build.config.json
+            - docs/.vuepress/package.json
+            - docker-compose/elasticsearch-single/bin/up.sh
+            - docker-compose/elasticsearch-single/compose/docker-compose.yml
+        children: []
+        depends_on: []
+        related_to: []
+    configuration_system:
+        dir_name: 基于 Docker Compose 的环境配置与变量分层管理
+        title: 基于 Docker Compose 的环境配置与变量分层管理
+        scope: []
+        source_files:
+            - docker-compose/elasticsearch-single/.env
+            - docker-compose/elasticsearch-single/compose/docker-compose.yml
+            - docker-compose/elk-cluster/.env
+            - docker-compose/elk-cluster/compose/docker-compose.yml
+            - docker-compose/elk-cluster/filebeat/filebeat.yml
+            - docker-compose/elk-cluster/logstash/logstash.conf
+            - docker-compose/verdaccio-single/config/config.yaml
+            - docker-compose/rabbitmq-cluster/haproxy/haproxy.cfg
+        children: []
+        depends_on: []
+        related_to: []
+    dependency_management:
+        dir_name: 依赖管理与私有制品库策略
+        title: 依赖管理与私有制品库策略
+        scope: []
+        source_files:
+            - docker-compose/verdaccio-single/config/config.yaml
+            - docker-compose/verdaccio-single/compose/docker-compose.yml
+            - docker-compose/nexus-single/compose/docker-compose.yml
+            - docs/.vuepress/package.json
+            - docs/.vuepress/package-lock.json
+        children: []
+        depends_on: []
+        related_to: []
+    docs:
+        dir_name: 容器环境文档站点
+        title: 容器环境文档站点
+        scope:
+            - docs/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: infra
+    frontend_style:
+        dir_name: VuePress Hope 主题样式体系
+        title: VuePress Hope 主题样式体系
+        scope: []
+        source_files:
+            - docs/.vuepress/src/.vuepress/styles/palette.scss
+            - docs/.vuepress/src/.vuepress/styles/config.scss
+            - docs/.vuepress/src/.vuepress/styles/index.scss
+            - docs/.vuepress/src/.vuepress/theme.ts
+            - docs/.vuepress/src/.vuepress/config.ts
+            - docs/.vuepress/package.json
+        children: []
+        depends_on: []
+        related_to: []
+    infra:
+        dir_name: 基础设施容器化编排
+        title: 基础设施容器化编排
+        scope:
+            - docker-compose/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: docs
+    logging_system:
+        dir_name: ELK 日志采集与监控体系
+        title: ELK 日志采集与监控体系
+        scope: []
+        source_files:
+            - docker-compose/elk-cluster/compose/docker-compose.yml
+            - docker-compose/elk-cluster/filebeat/filebeat.yml
+            - docker-compose/elk-cluster/logstash/logstash.conf
+            - docker-compose/elk-cluster/metricbeat/metricbeat.yml
+        children: []
+        depends_on: []
+        related_to: []

@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: logging_system
+title: ELK 日志采集与监控体系
+scope: []
+source_files:
+    - docker-compose/elk-cluster/compose/docker-compose.yml
+    - docker-compose/elk-cluster/filebeat/filebeat.yml
+    - docker-compose/elk-cluster/logstash/logstash.conf
+    - docker-compose/elk-cluster/metricbeat/metricbeat.yml
+depends_on: []
+related_to: []

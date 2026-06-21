@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: frontend_style
+title: VuePress Hope 主题样式体系
+scope: []
+source_files:
+    - docs/.vuepress/src/.vuepress/styles/palette.scss
+    - docs/.vuepress/src/.vuepress/styles/config.scss
+    - docs/.vuepress/src/.vuepress/styles/index.scss
+    - docs/.vuepress/src/.vuepress/theme.ts
+    - docs/.vuepress/src/.vuepress/config.ts
+    - docs/.vuepress/package.json
+depends_on: []
+related_to: []
