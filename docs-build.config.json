@@ -1,0 +1,37 @@
+{
+  "baseSourceDir": "docs",
+  "site": {
+    "base": "/env-containers/",
+    "lang": "en-US",
+    "title": "Container Environments",
+    "description": "A collection of Docker Compose configurations for quickly setting up development environments."
+  },
+  "locales": {
+    "languages": ["en-US", "zh-CN"]
+  },
+  "output": "docs/.vuepress",
+  "navigation": {
+    "navbar": [
+      {
+        "text": {
+          "en-US": "Overview",
+          "zh-CN": "概述"
+        },
+        "link": "overview/containers.md",
+        "icon": "home"
+      }
+    ],
+    "sidebar": {
+      "/overview/": [
+        {
+          "text": {
+            "en-US": "Container Specifications",
+            "zh-CN": "容器规范"
+          },
+          "link": "overview/containers.md",
+          "icon": "home"
+        }
+      ]
+    }
+  }
+}

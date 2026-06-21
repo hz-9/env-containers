@@ -40,11 +40,17 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: Install @hz-9/docs-build
-        run: npm install -g @hz-9/docs-build
-      - name: Build docs
-        run: docs-build --action build --base-url '/env-containers/' --lang en-US,zh-CN
+          node-version: '20.18.1'
+      - name: Run Generate Script
+        run: bash ./scripts/generate-pages.sh
+      - name: Install VuePress dependencies
+        run: |
+          cd docs/.vuepress
+          npm install
+      - name: Build VuePress static site
+        run: |
+          cd docs/.vuepress
+          npm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
