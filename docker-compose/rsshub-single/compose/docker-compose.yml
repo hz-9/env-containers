@@ -1,0 +1,22 @@
+services:
+  rsshub:
+    image: diygod/rsshub:latest
+    container_name: rsshub
+    restart: unless-stopped
+    networks:
+      all:
+        aliases:
+          - all.rsshub
+    ports:
+      - 1200:1200
+    environment:
+      NODE_ENV: production
+      PORT: 1200
+      CACHE_TYPE: memory
+      CACHE_EXPIRE: 600
+      NODE_NAME: rsshub
+      LOGGER_LEVEL: info
+      NO_LOGFILES: true
+
+networks:
+  all:
